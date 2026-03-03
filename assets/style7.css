@@ -1,0 +1,77 @@
+/* 見出しもカードと同じ横幅・左位置にする */
+.pdf-header {
+  max-width: 1200px;
+  margin: 0 auto 16px; /* 下に少し余白 */
+}
+
+/* 見出しの左寄せ */
+.sec-title,
+.sec-sub {
+  text-align: left;
+}
+
+/* h3 用微調整（任意） */
+.sec-sub {
+  margin-top: 10px,0px,40px,20px;
+  font-size: clamp(14px, 2.2vw, 16px);
+  font-weight: normal;
+  color: #008e55;
+}
+.pdf-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.pdf-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pdf-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.pdf-card:hover img {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+}
+
+
+.pdf-title {
+  margin: 0px 0px 0px 10px;
+  font-weight: 600;
+  text-align: left;
+  font-size: clamp(14px, 3vw, 16px);
+}
+
+.pdf-desc {
+  margin: 0px 0px 0px 10px;
+  text-align: left;
+  color: #414141;
+  font-size: clamp(10px, 2.4vw, 14px);
+    /* ★ 1行固定＆省略 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1100px) {
+  .pdf-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 800px) {
+  .pdf-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .pdf-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+.container {
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center; /* 横方向の中央揃え */
+    align-items: center; /* 縦方向の中央揃え */
+    background-color: #2f3237;
+}
+
+.container2 {
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column; /*縦方向に並べる */
+    text-align: center;
+    /* justify-content: center; 横方向の中央揃え */
+    align-items: center; /* 縦方向の中央揃え */
+    background: linear-gradient(green, rgb(254, 248, 249));
+}
+
+
+.container h1 {
+    color: hsl(0, 0%, 100%);
+}
+
+.container2 h1 {
+    margin: 0;
+    margin-bottom: -5px;
+    color: hsl(0, 0%, 100%);
+    font-size: 2.5rem;
+}
+
+.container2 p {
+    margin: 0;
+    font-weight: bold;   
+    font-size: 1.2rem;
+}
+
+.video-container {
+    display: grid; /* Gridレイアウトを使用 */
+    /* grid-template-columns: repeat(2, 1fr); 2列に分割 */
+    gap: 20px; /* 各アイテム間のスペース */
+    justify-content: center; /* コンテナ全体を中央揃え */
+    padding: 20px;
+}
+
+.video-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 中央寄せ */
+    max-width: 800px; /* 最大幅を400pxに制限 */
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* box-sizing: border-box; */
+    margin: 0 auto; /* 中央に配置 */
+}
+
+.video-item h2 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.video-item video {
+    width: 100%; /* 動画の幅を親要素に合わせる */
+    height: auto; /* アスペクト比を維持 */
+    max-width: 100%; /* 動画の最大幅を400pxに制限 */
+    border-radius: 8px;
+}
+
+
+@media (max-width: 600px) {
+    .video-container {
+        grid-template-columns: 1fr; /* 1列レイアウト */
+        gap: 10px; /* 動画間のスペースを縮小 */
+    }
+
+    .video-item {
+        max-width: 100%; /* 親要素の幅いっぱいに */
+        margin: 0 auto; /* 中央揃え */
+    }
+    .container h1 {
+        font-size: 1.3rem;
+    }
+    .container2 h1 {
+        font-size: 1.3rem;
+    }
+    .container2 p {
+        margin-top: 5px;
+        font-size: 0.9rem;
+    }
+}

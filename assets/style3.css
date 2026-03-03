@@ -1,0 +1,59 @@
+body {
+    margin: 0 auto; /* 中央揃えにするための設定 */
+    max-width: 1200px; /* 最大幅を1200pxに設定 */
+    padding: 20px; /* 内部の余白 */
+}
+
+table {
+    width: 100%; /* テーブルの幅を親要素に合わせて100%に設定 */
+    border-collapse: collapse; /* セルの境界線をまとめる */
+}
+
+th, td {
+    padding: 10px; /* セルの内部余白 */
+    border: 1px solid black; /* セルの境界線 */
+    vertical-align: top; /* テキストの垂直位置 */
+}
+
+th {
+    background-color: #d7d3d3; /* 背景色 */
+    text-align: center; /* テキストを中央揃え */
+}
+
+form {
+    margin-bottom: 10px; /* テーブルとの間隔を10px確保 */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 各要素の間隔 */
+}
+
+label {
+    font-size: 16px; /* ラベルの文字を大きく */
+}
+
+select {
+    font-size: 16px; /* プルダウンメニューの文字を大きく */
+    padding: 10px; /* クリックしやすく */
+    width: 200px; /* 横幅を広げる */
+}
+
+button {
+    font-size: 16px; /* ボタンの文字を大きく */
+    padding: 10px 15px; /* クリックしやすく */
+    background-color: #007bff; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* 角を丸く */
+}
+
+button:hover {
+    background-color: #0056b3; /* ホバー時の色変更 */
+}
+
+
+th:nth-child(1), td:nth-child(1) { width: 2%; }
+th:nth-child(2), td:nth-child(2) { width: 25%; }
+th:nth-child(3), td:nth-child(3) { width: 8%; }
+th:nth-child(4), td:nth-child(4) { width: 35%; }
+th:nth-child(5), td:nth-child(5) { width: 30%; }

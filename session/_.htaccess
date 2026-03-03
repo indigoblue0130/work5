@@ -1,0 +1,31 @@
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# PDFファイルへのアクセス制御
+<FilesMatch "\.pdf$">
+    SetEnvIf Referer "https://triple3.online/work5/index.php" allowed_ref
+    Order Deny,Allow
+    Deny from all
+    Allow from env=allowed_ref
+</FilesMatch>
+
+# 動画ファイルへのアクセス制御
+<FilesMatch "\.(mp4|mov|avi|webm)$">
+    SetEnvIf Referer "https://triple3.online/work5/index.php" allowed_ref
+    Order Deny,Allow
+    Deny from all
+    Allow from env=allowed_ref
+</FilesMatch>
+
+# 動画ファイルの直接アクセスをブロック
+RewriteEngine On
+RewriteCond %{REQUEST_URI} \.(mp4|mov|avi|webm)$ [NC]
+RewriteCond %{HTTP_REFERER} !^https://triple3\.online/work5/index\.php [NC]
+RewriteRule .* - [F]
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} \.pdf$ [NC]
+RewriteCond %{HTTP_REFERER} !^https://triple3\.online/work5/index\.php [NC]
+RewriteRule .* - [F]

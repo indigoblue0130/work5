@@ -1,0 +1,338 @@
+共通設定
+html{
+    font-size: 100%; /* 16px */
+}
+body{
+    color: #24292e;
+}
+
+a{
+    text-decoration: none;/*下線を消す*/
+    color: black;
+}
+p{
+    font-size: 1.3rem; /* 16pxの1.3倍 */
+}
+
+img{
+    max-width: 100%;
+}
+li{
+    list-style: none;  /* 箇条書きの・を消す */
+    font-size: 1.2rem; 
+}
+h3{
+    color: #396c9e;
+    font-size: 0.9rem;
+    margin-left: 10px;
+
+}
+.wrapper{
+    max-width: 960px;
+    margin: 0 auto 130px auto;
+    font-size: 0.9rem;
+    padding: 0 4%;
+}
+
+.site-title{
+    line-height: 1px;
+    font-weight: 600px;
+    font-size: 2.4vem;
+}
+
+.site-title a{
+    color: #24292e;
+    /* display: block; */
+}
+
+.sec-title{
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 65px;
+}
+
+/* --header-- */
+
+header{
+    max-width: 960px;
+    display: flex; /* 横並びになる */
+    align-items: center;/* 軸に対してセンターになる */
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 4%;
+    height: 170px;
+}
+header ul{
+    display: flex;
+    padding: 10px 0;
+    align-items: center;  /* 高さを中央にする */
+}
+header ul li{
+    font-size: 0.9rem;
+    margin-left: 30px; 
+}
+header ul li a{
+    color: #24292e;
+    transition: all 0.3s; /* hoverする時にゆっくり動く */
+}
+header ul li a:hover{
+    opacity: 0.5; /* マウスを当てると半透明になる */
+}
+header li img.icon1{
+    width: 28px;
+    margin-top: 5px;
+}
+
+header li img.icon2{
+    width: 30px;
+    margin-top: 5px;
+}
+
+header li img.icon3{
+    width: 50px;
+    margin-top: 5px;
+}
+
+.large-icon {
+    width: 100px; /* 3番目の画像のサイズを大きく設定 */
+}
+/* Main */
+
+#main img{
+    width: 100%;
+    max-width: 1920px;
+    height: 400px;
+    object-fit: cover; /* 縦横の比率を合わせる */
+}
+
+#main{
+    margin-bottom: 80px;
+}
+/* About */
+
+#about ul{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#about ul li:first-child{
+    margin-bottom: 30px;
+}
+#about ul li{
+    margin-bottom: 3px;
+}
+
+#about p{
+    text-align: center;
+    color: black;
+}
+
+#about a {
+    color: black; /* 文字色を黒に設定 */
+}
+
+/* works */
+#works ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+#works ul li{
+    width: 31%;
+    margin-bottom: 23px;
+}
+#works ul li img{
+    cursor: pointer;
+    transition: all 0.3s;
+}
+#works ul li img:hover{
+    /* ポインターで大きく */
+    transform: scale(1.1,1.1);
+    /* ポインターで透ける感じにする */
+    opacity: 0.8;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 960px;
+}
+
+.image-container img {
+    display: block;
+    width: 100%;
+}
+
+.image-container p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    white-space: nowrap;
+    font-size: 20px !important; /* !importantで優先度を高める */
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/*  news */
+#news dl{
+/* dtとddを横並びにする */
+    display: flex;
+/* 折り返す */
+    flex-wrap: wrap;
+    border-top: 1px solid #c8c8c8;
+    margin-bottom: 20px;
+}
+#news dt{
+    width: 20%;
+    border-bottom: 1px solid #c8c8c8;
+    padding: 15px;
+}
+#news dd{
+    width: 80%;
+    border-bottom: 1px solid #c8c8c8;
+    padding: 15px;
+}
+
+/* contact */
+
+#contact p{
+    /* 文字を中央にする */
+    text-align: center;
+    /* 下とのマージンをあける */
+    margin-bottom: 20px;
+}
+
+#contact dl{
+    /* dtとddを横並びにする */
+    display: flex;
+    /* 折り返す(dtとddのwidthの調整が必要)*/
+    flex-wrap: wrap;
+}
+
+#contact dt{
+    width: 15%;
+    margin-bottom: 10px;
+}
+#contact dd{
+    width: 85%;
+    margin-bottom: 10px;
+}
+/* 罫線 */
+#contact dd input,
+#contact dd textarea{
+    width: 100%;
+    border: 1px solid #c8c8c8;
+    /* 内側の余白をつける */
+    padding: 10px;
+}
+
+#contact dd textarea{
+    height: 10rem;
+}
+
+#contact .button{
+    text-align: center;
+}
+
+#contact .button input{
+    border: 1px solid #24292e;
+    background-color: #24292e;
+    width: 200px;
+    padding: 15px 0;
+    color: #fff;
+    /* 時間をかけて変化させる */
+    transition: all 0.3s;
+}
+
+#contact .button input:hover{
+    background-color: #fff;
+    color: #24292e;
+}
+
+.archive {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.archive img{
+    cursor: pointer;
+    transition: all 0.3s;
+}  
+
+.archive img:hover{
+    /* ポインターで大きく */
+    transform: scale(1.1,1.1);
+    /* ポインターで透ける感じにする */
+    opacity: 0.8;
+}
+
+
+
+
+
+footer {
+    padding: 10px;
+    text-align: center;
+}
+
+/* SP(スマホ対応） */
+@media screen and (max-width: 800px) {
+    .site-title {
+        margin-top: 20px;
+    }
+    header{
+        flex-direction: column;
+        height: auto;
+        line-height: 40px;
+        margin-top: 30px;
+    }
+    header li{
+        font-size: 0.8rem;
+        margin-left: 20px; 
+    }
+    header li img.icon{
+        width: 20px;
+        margin-top: 10px;
+    }
+    /* works */
+    #works ul{
+        flex-direction: column;
+    }
+    #works ul li{
+        width: 100%;
+    }
+    /* news */
+    #news dl{
+        /* 縦並びにする */
+        flex-direction: column;
+    }
+    #news dt{
+        width: 100%;
+        border-bottom: none;
+        padding: 0;
+    }
+    #news dd{
+        width: 100%;
+        padding-top: 0;
+    }
+    /* contact */
+    #contact dl{
+        flex-direction: column;
+    }
+    #contact dt{
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    #contact dd{
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}

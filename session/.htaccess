@@ -1,0 +1,60 @@
+########################################
+# 基本設定
+########################################
+Options -Indexes
+RewriteEngine On
+
+
+########################################
+# 重要ファイルの直アクセス禁止
+########################################
+<Files "config.php">
+  Require all denied
+</Files>
+
+<FilesMatch "\.(env|ini|log|sql)$">
+  Require all denied
+</FilesMatch>
+
+
+########################################
+# PDFファイル：直アクセス完全禁止
+# 許可ルート：view_pdf.php 経由のみ
+########################################
+<FilesMatch "\.pdf$">
+  SetEnvIf Referer "/work5/view_pdf\.php" allow_pdf
+  Require all denied
+  Require env allow_pdf
+</FilesMatch>
+
+RewriteCond %{REQUEST_URI} \.pdf$ [NC]
+RewriteCond %{HTTP_REFERER} !/work5/view_pdf\.php [NC]
+RewriteRule .* - [F]
+
+
+########################################
+# 動画ファイル：直アクセス禁止
+# 許可ルート：work5 配下の PHP ページ経由
+########################################
+<FilesMatch "\.(mp4|mov|avi|webm)$">
+  SetEnvIf Referer "/work5/.*\.php" allow_video
+  Require all denied
+  Require env allow_video
+</FilesMatch>
+
+RewriteCond %{REQUEST_URI} \.(mp4|mov|avi|webm)$ [NC]
+RewriteCond %{HTTP_REFERER} !/work5/.*\.php [NC]
+RewriteRule .* - [F]
+
+
+########################################
+# 不正リクエスト対策（簡易）
+########################################
+RewriteCond %{QUERY_STRING} (\.\./|%2e%2e) [NC]
+RewriteRule .* - [F]
+
+
+########################################
+# 文字コード
+########################################
+AddDefaultCharset UTF-8

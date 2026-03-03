@@ -1,0 +1,594 @@
+body{
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+  margin: 0;
+  background: #f6f7f9;
+}
+
+.topbar{
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 12px 14px;
+  z-index: 10;
+}
+.topbar__title{ font-weight: 700; }
+
+.container{ padding: 14px; max-width: 960px; margin: 0 auto; }
+
+.nav-top{ display:flex; gap:10px; align-items:center; margin-bottom: 10px; flex-wrap: wrap; }
+
+.btn{
+  border: 1px solid #d0d5dd;
+  background: #fff;
+  padding: 12px 24px;
+  font-size: clamp(10px, 3.5vw, 14px);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.search-actions {
+  display: flex;
+  align-items: center;
+}
+
+.statusText {
+  color:#333;
+  font-size: clamp(12px, 3.5vw, 16px);
+  margin-bottom: 12px;
+  margin-right: auto;   /* ← これがポイント */
+}
+
+.btn--primary{
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+.btn--ghost{ background:#fff; }
+.btn--ok{
+  background:#16a34a;
+  border-color:#16a34a;
+  color:#fff;
+}
+.btn:disabled{ opacity: .5; cursor: not-allowed; }
+
+.panel{
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+.grid{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.field span{
+  display:block;
+  font-size: clamp(12px, 3.5vw, 16px);
+  color:#555;
+  margin-bottom: 6px;
+}
+select{
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #d0d5dd;
+  background:#e8e8fc;
+  font-size: clamp(14px, 3.5vw, 16px);
+}
+
+.actions{ 
+  display:flex;
+  gap:12px; align-items:center;
+  margin-top: 10px; flex-wrap: wrap;
+}
+
+.toggle{
+  font-size:clamp(12px, 3.5vw, 18px);
+  color:#333;
+}
+
+.msg{
+  color:#b91c1c; 
+  margin-top: 8px; 
+}
+
+.viewer {
+  display: flex;
+  flex-direction: column;
+}
+
+.viewer .status{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  /* margin: 4px 0 10px; */
+}
+
+/* .card-nav {
+  display: flex;
+  gap: 10px;
+  margin: 6px 0 10px;
+  justify-content: center;
+} */
+
+/* .card-nav{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 12px 0;
+} */
+
+/* .card-nav .btn {
+  flex: initial;
+} */
+
+/* .card-nav:not(.is-hidden) + .card {
+  margin-top: 12px;
+} */
+
+/* .card-nav {
+  display: none;
+  justify-content: center;
+  margin: 12px 0;
+} */
+
+/* .card-nav {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+} */
+
+.card-nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* ← 変更点 */
+  width: 100%;                    /* ← 重要 */
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.counter{
+  color:#111; font-weight:700;
+}
+
+
+.card{
+  position: relative;
+  margin-top: 6px;
+  background:#fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+.card.is-hidden{
+  display:none;
+}
+
+.cardHeader{
+  margin-bottom: 10px;
+}
+.cardHeader .label{
+  font-size: clamp(14px, 3.5vw, 16px);
+  color:#666;
+}
+
+.big{
+  font-size: clamp(18px, 3.5vw, 26px);
+  font-weight: 800;
+}
+
+.kv{
+  display:flex;
+  align-items: center;   /* ← これが決定打 */
+  gap: 6px;
+  align-items:center;
+  padding: 10px 15px;
+  border: 1px solid #eef0f3;
+  border-radius: 14px;
+  margin-top: 6px;
+  background:#e3e2e2;
+}
+.kv .k{
+  width: 120px;
+  color:#555;
+  font-weight: 700;
+  font-size: clamp(14px, 3.5vw, 16px);
+}
+.kv .v{
+  flex:1; font-size: clamp(14px, 3.5vw, 16px);
+  color:#111; 
+}
+
+.kv .v.is-empty {
+  color: #622700;
+  display: flex;
+  align-items: center;   /* ← 縦中央 */
+  transform: translateY(-2px); /* ← ★ここ */
+  line-height: 1;
+}
+
+.tel{
+  font-size: clamp(14px, 3.5vw, 24px);
+  color:#2563eb;
+  text-decoration: none;
+  font-weight: 800; }
+
+  /* PC：青表示・クリック不可 */
+.tel {
+  pointer-events: none;
+  color: #0066cc;        /* ← 明示的に青 */
+  /* text-decoration: underline; */
+}
+
+/* .nav{
+  display:flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 14px;
+} */
+
+.hint{ margin-top: 10px; color:#666; font-size: clamp(14px, 3.5vw, 16px); text-align: center; }
+
+/* .is-hidden {
+  display: none !important;
+} */
+
+.nav.is-hidden {
+  display: none;
+}
+
+.maru {
+  position: absolute;
+  inset: 0;                    /* カード全面 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.25;
+}
+
+.maru::before {
+  content: "";
+  width: 30%;                  /* ★ カード幅の30% */
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 100%;
+  line-height: 1;
+
+  color: #e11d48;
+  border: 8px solid #e11d48;
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.maru.is-hidden {
+  display: none;
+}
+
+/*市場措置　有を赤*/
+.kv .v.market-alert{
+  color: #dc2626;
+  font-weight: 800;
+}
+
+/* パラパラ（めくり）演出 */
+/* .slide-next{ transform: translateX(-12px) rotate(-1deg); opacity: .65; }
+.slide-prev{ transform: translateX(12px) rotate(1deg); opacity: .65; } */
+
+/* アニメーションの土台 */
+#card {
+  transition: transform 0.18s ease-out, opacity 0.18s ease-out;
+  will-change: transform, opacity;
+}
+
+.slide-prev{ transform: translateX(-12px) rotate(-1deg); opacity: .65;}
+.slide-next{ transform: translateX(12px) rotate(1deg); opacity: .65;}
+
+/* ====== KV グリッドレイアウト ====== */
+.kv-grid{
+  display: grid;
+  padding-top: 8px;
+  gap: 8px;
+}
+
+.actions.search-actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* label を flex に */
+.actions.search-actions .toggle {
+  display: flex;
+  align-items: center;
+}
+
+/* テキスト（暗黙的に order:1） */
+
+/* チェックボックス：テキストの後ろ */
+.actions.search-actions .toggle input[type="checkbox"] {
+  order: 2;
+  transform: scale(1.4);
+  margin-left: 6px;
+  position: relative;
+  top: 2px;              /* ← 微調整（1〜2pxで調整） */
+}
+
+/* 検索ボタン：一番最後 */
+.actions.search-actions .toggle #btnSearch {
+  order: 3;
+  margin-left: 16px; /* チェックとの間隔 */
+  font-size: clamp(12px, 3.5vw, 16px);
+  font-weight: 700;
+}
+
+#btnSearch {
+  margin-left: 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#btnSearch {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#btnSearch {
+  padding: 8px 8px;
+  min-width: 140px;
+}
+
+.status {
+  display: flex;
+}
+
+.counter {
+  margin-left: auto;   /* ← 右寄せの決定打 */
+}
+
+#market_box.market-danger .v {
+  color: #d60000;
+  font-weight: 700;
+}
+
+/* 電話 / SMS アクション */
+.contact-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  margin-bottom: 8px;   /* ← これが効く */
+}
+
+/* 小さめ業務UI */
+.contact-actions .btn {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 10px;
+}
+
+/* 電話 */
+.btn--call {
+  background: #e0f2fe;
+  border: 1px solid #7dd3fc;
+  color: #075985;
+}
+
+/* SMS */
+.btn--sms {
+  background: #ecfeff;
+  border: 1px solid #67e8f9;
+  color: #155e75;
+}
+
+/* 非表示制御 */
+.contact-actions.is-hidden {
+  display: none;
+}
+
+/* スマホだけ表示（iPhone / Android） */
+@media screen and (max-width: 768px) {
+  .contact-actions {
+    display: flex;
+  }
+}
+
+.notice {
+  margin: 4px 4px 4px 8px;
+  font-size: clamp(8px, 2.6vw, 14px);
+  color: #6b7280;              /* 薄めのグレー */
+  /* white-space: nowrap;         改行させない */
+  overflow: hidden;
+  text-overflow: ellipsis;     /* 万一は … */
+}
+
+
+
+/* =================================================
+   レスポンシブCSS（最終・完全版）
+   ================================================= */
+
+
+/* =========================================
+   ① 検索条件 .grid（コンテナ幅基準）
+   ========================================= */
+
+/* デフォルト（広いPC）：4列 */
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* 中間帯（PC狭め〜タブレット）：2列 */
+@media screen and (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* スマホ：1列 */
+@media screen and (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   ② 情報表示 kv-grid
+   ========================================= */
+
+/* PC / iPad横：3列 */
+@media (min-width: 768px) {
+  .kv-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* iPad横・中間：2列 */
+@media (min-width: 601px) and (max-width: 800px) {
+  .kv-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* スマホ・iPad縦：1列 */
+@media (max-width: 600px) {
+  .kv-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   ③ パラパラ操作ナビ（スマホ〜タブレット）
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+
+  .card-nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* card-nav内のボタンだけ整える */
+  .card-nav .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 40px;
+    padding: 8px 10px;
+
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* 前へ・次へ */
+  #btnPrev,
+  #btnNext {
+    white-space: nowrap;
+  }
+
+  /* 中央ボタン（予約 or キャンセル） */
+  #btnArrived,
+  #btnCancel {
+    width: 160px;
+    /* font-size: 12px; */
+    padding: 8px 6px;
+    margin: 0 auto;
+  }
+}
+
+
+/* =========================================
+   ④ search-actions（段階制御が重要）
+   ========================================= */
+
+/* デフォルト：横並び・右寄せ */
+.search-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* toggleは常に横並び */
+.search-actions .toggle {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* スマホのみ：縦並び */
+@media screen and (max-width: 600px) {
+  .search-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-actions .btn {
+    width: 100%;
+  }
+}
+
+
+/* =========================================
+   ⑤ 極小幅（420px付近）の最終微調整
+   ========================================= */
+
+@media screen and (max-width: 420px) {
+
+  #btnPrev,
+  #btnNext {
+    font-size: 10.5px;
+    padding: 8px 8px;
+  }
+
+  #btnNext {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
+
+/* =========================================
+   ⑥ hidden属性は常に最優先
+   ========================================= */
+
+[hidden] {
+  display: none !important;
+}
+
+.card-nav:not(.is-hidden) {
+  margin-bottom: 12px;
+}
+
+/* ===== キャンセルボタン（JS非変更・Safari対応） ===== */
+.card-nav #btnCancel:not([hidden]) {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+.card-nav #btnCancel:not([hidden]):hover {
+  background-color: #fee2e2;
+}
+
