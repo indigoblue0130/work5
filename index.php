@@ -192,7 +192,6 @@ $_SESSION['allow_pdf_access'] = true;
 
     <!-- works -->
     <section id="works" class="wrapper">
-        <!-- <H2 class="sec-title">works</H2> -->
         <H2 class="sec-title">works</H2>
         <ul>
             <li>
