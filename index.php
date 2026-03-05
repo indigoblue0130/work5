@@ -126,20 +126,20 @@ $_SESSION['allow_pdf_access'] = true;
     <H2 class="sec-title">SPIKA</H2>
         <ul>
             <li>
-                <a href="view_pdf.php?file=works/SPIKA202602.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/cup4.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/SPIKA202602.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/cup4.jpg" alt="SPIKA/NPS分析" loading="lazy">
                         <p>SPIKA/NPS分析(12-2月)</p>
                 </a>
             </li>  
             <li>
-                <a href="./comment3.php" target="_blank" class="image-container">
-                    <img src="./assets/img/cup5.jpg" alt="works1">
+                <a href="./comment3.php" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/cup5.jpg" alt="ユーザーコメント" loading="lazy">
                         <p>ユーザーコメント/2月分</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/SPIKA_second_half.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/cup1.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/SPIKA_second_half.pdf"target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/cup1.jpg" alt="SPIKA前期分析" loading="lazy">
                         <p>SPIKA2024下期分析</p>
                 </a>
             </li>   
@@ -149,10 +149,10 @@ $_SESSION['allow_pdf_access'] = true;
         <H2 class="sec-title">videos</H2>
             <div class="archive">
                 <a href="videos.php">
-                    <img src="./assets/img/tops2024.gif" alt="archive">
+                    <img src="./assets/img/tops2024.gif" alt="tops2024">
                 </a>
                 <a href="videos_rakumaru.php">
-                    <img src="./assets/img/rakumaru.gif" alt="archive">
+                    <img src="./assets/img/rakumaru.gif" alt="rakumaru">
                 </a>
                 <!-- <a href="videos4.php">
                     <img src="./assets/img/inui.png" alt="archive">
@@ -184,7 +184,7 @@ $_SESSION['allow_pdf_access'] = true;
                 <!-- <a href="./public/6m_search.php" class="banner">
                     <img src="assets/img/3kan.png" alt="3管率 パラパラ検索">
                 </a> -->
-                <a href="./public/shaken_search.php" class="banner">
+                <a href="./public/shaken_search.php" target="_blank" class="banner">
                     <img src="assets/img/tenken.png" alt="点検対象 パラパラ検索">
                 </a>
             </div>
@@ -195,92 +195,92 @@ $_SESSION['allow_pdf_access'] = true;
         <H2 class="sec-title">works</H2>
         <ul>
             <li>
-                <a href="view_pdf.php?file=works/sokuho_2025.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/works1.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/sokuho_2025.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/works1.jpg" alt="受注登録売上速報" loading="lazy">
                         <p>受注登録売上速報</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/basic_1.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/pc1.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/basic_1.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/pc1.jpg" alt="L-MAX基本活動" loading="lazy">
                         <p>L-MAX/基本活動</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/hoken.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/works3.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/hoken.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/works3.jpg" alt="保険獲得&継続率" loading="lazy">
                         <p>保険獲得&継続率</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/attack_6m.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/iPhone2.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/attack_6m.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/iPhone2.jpg" alt="アタックリスト状況" loading="lazy">
                         <p>アタックリスト状況</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/shinki.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/cycle1.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/shinki.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/cycle1.jpg" alt="新規フォロー状況" loading="lazy">
                         <p>新規フォロー状況</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/ei_zangyo.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/suisho3.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/ei_zangyo.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/suisho3.jpg" alt="営業残業時間" loading="lazy">
                         <p>営業S残業時間</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/service_rieki.pdf" target="_blank" class="image-container">    
-                    <img src="./assets/img/works4.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/service_rieki.pdf" target="_blank" rel="noopener noreferrer" class="image-container">    
+                    <img src="./assets/img/works4.jpg" alt="サービス実績表" loading="lazy">
                         <p>サービス実績表</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/jishiritu2.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/works5.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/jishiritu2.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/works5.jpg" alt="車点検実施率予測" loading="lazy">
                         <p>車点検実施率[予測]</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/jishiritu.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/pc9.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/jishiritu.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/pc9.jpg" alt="車点検実施率実績"  loading="lazy">
                         <p>車点検実施率[実績]</p>
                 </a>
             </li>    
             <li>
-                <a href="view_pdf.php?file=works/chao_mijishi.pdf" target="_blank" class="image-container">    
-                    <img src="./assets/img/works6.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/chao_mijishi.pdf" target="_blank" rel="noopener noreferrer" class="image-container">    
+                    <img src="./assets/img/works6.jpg" alt="まかせチャオ消化率" loading="lazy">
                         <p>まかせチャオ消化率</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/chao_yoyaku.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/iPhone1.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/chao_yoyaku.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/iPhone1.jpg" alt="サービス翌月予約確認" loading="lazy" loading="lazy">   
                         <p>サービス翌月予約確認</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/SE_zangyo.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/suisho2.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/SE_zangyo.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/suisho2.jpg" alt="SE残業時間" loading="lazy">
                         <p>SE残業時間</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/SE_result.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/works2.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/SE_result.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/works2.jpg" alt="SE別実績表" loading="lazy">
                         <p>SE別実績表</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/service_add.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/pc5.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/service_add.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/pc5.jpg" alt="サービス付加価値" loading="lazy">
                         <p>サービス付加価値</p>
                 </a>
             </li>
             <li>
-                <a href="view_pdf.php?file=works/revenue.pdf" target="_blank" class="image-container">
-                    <img src="./assets/img/camera1.jpg" alt="works1">
+                <a href="view_pdf.php?file=works/revenue.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
+                    <img src="./assets/img/camera1.jpg" alt="収益速報" loading="lazy">
                         <p>収益速報</p>
                 </a>
             </li>
@@ -295,21 +295,21 @@ $_SESSION['allow_pdf_access'] = true;
     <section id="other" class="wrapper">
     <H2 class="sec-title">other</H2>
     <div class="archive">
-        <a href="view_pdf.php?file=works/keikakusho2025.pdf">
+        <a href="view_pdf.php?file=works/keikakusho2025.pdf" target="_blank" rel="noopener noreferrer">
             <img src="./assets/img/keikaku_bana.png" alt="archive">
         </a>
         <!-- <a href="view_pdf.php?file=ranking2025.pdf">
             <img src="./assets/img/ranking_kojin2025.png" alt="archive">
         </a> -->
-        <a href="view_pdf.php?file=works/ranking2025.pdf">
+        <a href="view_pdf.php?file=works/ranking2025.pdf" target="_blank" rel="noopener noreferrer">
             <video autoplay loop muted playsinline poster="./assets/img/ranking_kojin2025.png">
                 <source src="./assets/video/ranking.mp4" type="video/mp4">
             </video>
         </a>
-        <a href="view_pdf.php?file=works/graph2025.pdf">
+        <a href="view_pdf.php?file=works/graph2025.pdf" target="_blank" rel="noopener noreferrer">
             <img src="./assets/img/graph2025.png" alt="archive">
         </a>
-        <a href="view_pdf.php?file=works/新車納車説明スタンダード.pdf">
+        <a href="view_pdf.php?file=works/新車納車説明スタンダード.pdf" target="_blank" rel="noopener noreferrer">
             <img src="./assets/img/nosha.png" alt="archive">
         </a> 
         <!-- <a href="view_pdf.php?file=keiriTips_05.pdf">
