@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // ログイン中ユーザーのみログ記録
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    $log_directory = 'logs';
+    $log_directory = '/home/xs300844/triple3.online/log';
     $today = date('Y-m-d');
     $log_file = $log_directory . "/access_log_{$today}.txt";
 

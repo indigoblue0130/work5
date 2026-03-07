@@ -190,6 +190,20 @@ $_SESSION['allow_pdf_access'] = true;
             </div>
     </section>
 
+    <section id="raiten" class="wrapper">
+        <H2 class="sec-title">survey</H2>
+            <div class="archive">
+                <a href="/survey/survey.php" class="banner">
+                    <img src="assets/img/survey5.png" alt="来店アンケート">
+                    <p>準備中</p>
+                </a>
+                <a href="/survey/visitors.php" target="_blank" class="banner">
+                    <img src="assets/img/survey4.png" alt="来店アンケート検索">
+                    <p>準備中</p>
+                </a>
+            </div>
+    </section>
+
     <!-- works -->
     <section id="works" class="wrapper">
         <H2 class="sec-title">works</H2>

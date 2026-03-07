@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'hdn0136656') {
 }
 
 // ログフォルダと表示するファイルのパス
-$log_dir = 'logs/';
+$log_dir = '/home/xs300844/triple3.online/log';
 $file = $_GET['file'] ?? '';
 $filepath = $log_dir . basename($file);
 

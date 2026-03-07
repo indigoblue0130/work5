@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../../config/config2.php';
 
+// 変更後(本番用)
+// require_once '/home/xs300844/triple3.online/config/config2.php';
+
 $conn = new mysqli(
   DB_SERVER,
   DB_USERNAME,

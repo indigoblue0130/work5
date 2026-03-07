@@ -7,27 +7,34 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
-// アクセスログ記録処理
-$log_directory = 'logs';
+/* ===== アクセスログ ===== */
+$log_directory = '/home/xs300844/triple3.online/log';
+
+if (!file_exists($log_directory)) {
+    mkdir($log_directory, 0755, true);
+}
+
 $today = date('Y-m-d');
 $log_file = $log_directory . "/access_log_{$today}.txt";
 
-if (!file_exists($log_directory)) {
-    mkdir($log_directory, 0777, true);
-}
-
 $username = $_SESSION['username'] ?? '不明ユーザー';
-$access_page = basename($_SERVER['PHP_SELF']);
+$access_page = $_SERVER['REQUEST_URI'];   // ← この行を追加
 $ip_address = $_SERVER['REMOTE_ADDR'];
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
+$referer = $_SERVER['HTTP_REFERER'] ?? '-';
+$session_id = session_id();
 
 $log = date("Y-m-d H:i:s")
+    . " | SID: {$session_id}"
     . " | ID: {$username}"
-    . " | アクセス: {$access_page}"
+    . " | PAGE: {$access_page}"
+    . " | REF: {$referer}"
     . " | IP: {$ip_address}"
-    . " | ブラウザ: {$user_agent}\n";
+    . " | UA: {$user_agent}\n";
 
 file_put_contents($log_file, $log, FILE_APPEND);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">

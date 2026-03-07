@@ -34,23 +34,29 @@ if (
 }
 
 /* ===== アクセスログ ===== */
-$log_directory = __DIR__ . '/logs';
+$log_directory = '/home/xs300844/triple3.online/log';
+
 if (!file_exists($log_directory)) {
-    mkdir($log_directory, 0777, true);
+    mkdir($log_directory, 0755, true);
 }
 
 $today = date('Y-m-d');
 $log_file = $log_directory . "/access_log_{$today}.txt";
 
-$username   = $_SESSION['username'] ?? '不明ユーザー';
+$username = $_SESSION['username'] ?? '不明ユーザー';
+$access_page = $_SERVER['REQUEST_URI'];   // ← この行を追加
 $ip_address = $_SERVER['REMOTE_ADDR'];
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
+$referer = $_SERVER['HTTP_REFERER'] ?? '-';
+$session_id = session_id();
 
 $log = date("Y-m-d H:i:s")
+    . " | SID: {$session_id}"
     . " | ID: {$username}"
-    . " | PDFアクセス: {$pdf}"
+    . " | PAGE: {$access_page}"
+    . " | REF: {$referer}"
     . " | IP: {$ip_address}"
-    . " | ブラウザ: {$user_agent}\n";
+    . " | UA: {$user_agent}\n";
 
 file_put_contents($log_file, $log, FILE_APPEND);
 
