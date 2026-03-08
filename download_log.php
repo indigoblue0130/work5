@@ -1,29 +1,32 @@
 <?php
 session_start();
 
-// アクセス制限（必要に応じて）
+// 管理者のみ
 if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'hdn0136656') {
-    echo "アクセス権限がありません。";
-    exit();
+    exit("アクセス権限がありません。");
 }
 
-// ファイル取得
 $log_dir = '/home/xs300844/triple3.online/log';
+
 $file = $_GET['file'] ?? '';
-$filepath = $log_dir . basename($file);
+
+if ($file === '') {
+    exit("ファイル指定なし");
+}
+
+// ファイル名の安全化
+$filename = basename($file);
+
+$filepath = $log_dir . '/' . $filename;
 
 if (!file_exists($filepath)) {
-    echo "ログファイルが見つかりません。";
-    exit();
+    exit("ログファイルが存在しません");
 }
 
-// ダウンロードヘッダー（Shift-JISに変換してExcel対応）
-header('Content-Type: text/csv; charset=Shift_JIS');
-header('Content-Disposition: attachment; filename="' . $file . '.csv"');
+// ダウンロードヘッダー
+header('Content-Type: text/plain');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Content-Length: ' . filesize($filepath));
 
-// 内容を1行ずつ出力
-$lines = file($filepath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-foreach ($lines as $line) {
-    echo mb_convert_encoding($line . "\r\n", 'SJIS-win', 'UTF-8');
-}
-exit();
+readfile($filepath);
+exit;

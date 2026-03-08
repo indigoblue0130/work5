@@ -31,13 +31,13 @@ WHERE 拠点名 = ?
   AND 作業種別 = ?
 ";
 
+/* 対応済みを除外 */
 if ($show_done === '0') {
     $sql .= " AND arrived = 0";
 }
 
-// 取得上限（将来変更しやすい）
-// $LIMIT = 50;
-// $sql .= " LIMIT {$LIMIT}";
+/* 同じ車台番号は1件だけ取得（重複防止） */
+$sql .= " GROUP BY 車台番号";
 
 /* =========================
    prepare（失敗時もJSON）
@@ -87,4 +87,5 @@ echo json_encode([
     'count'  => count($data),
     'data'   => $data
 ], JSON_UNESCAPED_UNICODE);
+
 exit;

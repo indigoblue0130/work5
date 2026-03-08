@@ -8,7 +8,8 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'hdn0136656') {
 }
 
 $log_dir = '/home/xs300844/triple3.online/log';
-$log_files = glob($log_dir . 'access_log_*.txt'); // 日付別ログのみ取得
+// $log_files = glob($log_dir . 'access_log_*.txt'); // 日付別ログのみ取得
+$log_files = glob($log_dir . '/access_log_*.txt');
 usort($log_files, function ($a, $b) {
     return filemtime($b) - filemtime($a); // 更新日時で降順ソート
 });

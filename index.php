@@ -7,6 +7,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
+// ===== ログ
+// require_once __DIR__ . '/log_access.php';
+
 /* ★ セッション開始時刻（初回のみ） */
 if (!isset($_SESSION['login_time'])) {
     $_SESSION['login_time'] = time();
@@ -64,7 +67,7 @@ $_SESSION['allow_pdf_access'] = true;
 </div>
     <header>
         <h1 class="site-title">
-            <a>Growth engine & Growth driver</a>
+            <a>HKO Growth Hub</a>
         </h1>
         <nav>
             <ul>
@@ -194,12 +197,12 @@ $_SESSION['allow_pdf_access'] = true;
         <H2 class="sec-title">survey</H2>
             <div class="archive">
                 <a href="/survey/survey.php" class="banner">
-                    <img src="assets/img/survey5.png" alt="来店アンケート">
-                    <p>準備中</p>
+                    <img src="./assets/img/survey5.png" alt="来店アンケート">
+                    <p>テスト運用中</p>
                 </a>
                 <a href="/survey/visitors.php" target="_blank" class="banner">
-                    <img src="assets/img/survey4.png" alt="来店アンケート検索">
-                    <p>準備中</p>
+                    <img src="./assets/img/survey4.png" alt="来店アンケート検索">
+                    <p>テスト運用中</p>
                 </a>
             </div>
     </section>
