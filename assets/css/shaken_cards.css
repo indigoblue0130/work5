@@ -592,3 +592,38 @@ select{
   background-color: #fee2e2;
 }
 
+/* 電話 */
+.btn--call{
+background:#e0f2fe;
+border:1px solid #7dd3fc;
+color:#075985;
+}
+
+/* SMS */
+.btn--sms{
+background:#ecfeff;
+border:1px solid #67e8f9;
+color:#155e75;
+}
+
+/* LINE */
+.btn--line{
+background:#06C755;
+border:1px solid #06C755;
+color:#fff;
+}
+
+/* COPY */
+.btn--copy{
+background:#6b7280;
+border:1px solid #6b7280;
+color:#fff;
+}
+
+.btn--line:hover{
+background:#05b14a;
+}
+
+.btn--copy:hover{
+background:#4b5563;
+}

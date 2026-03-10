@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/config/config2.php';
+// require_once __DIR__ . '/config/config2.php';
+
+// 本番用
+require_once '/home/xs300844/triple3.online/config/config2.php';
 
 /* DB接続 */
 $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);

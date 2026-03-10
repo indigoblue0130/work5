@@ -4,7 +4,12 @@
 // 条件: 車台番号 + 対象月(文字列) + 作業種別
 // 更新: サービス予約日 (+ arrived)
 // ================================
+
+// ローカル用
 require_once __DIR__ . '/../../config/config2.php';
+
+// 変更後(本番用)
+// require_once '/home/xs300844/triple3.online/config/config2.php';
 
 // ---- 設定 ----
 const API_KEY = 'a9F$3KxP1vR7WmZ2NQ8J@6cE!H0sY4B*D5';

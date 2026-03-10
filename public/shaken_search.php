@@ -9,7 +9,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 
 /* ===== ログ ===== */
 require_once __DIR__ . '/../log_access.php';
-
 ?>
 <!doctype html>
 <html lang="ja">
@@ -18,7 +17,7 @@ require_once __DIR__ . '/../log_access.php';
   <title>点検対象 パラパラ検索</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- ★CSS（あなたの現行パスに合わせる） -->
+  <!-- ★CSS -->
   <link rel="stylesheet" href="../assets/css/shaken_cards.css">
 </head>
 <body>
@@ -32,17 +31,16 @@ require_once __DIR__ . '/../log_access.php';
   <!-- ▼ 戻るナビ -->
   <div class="nav-top">
     <a href="../index.php" class="btn btn--ghost">← TOPページへ戻る</a>
-
-    <!-- ※ 元コードに「コメントアウトしたbuttonの閉じタグだけ残る」崩れがあったので除去 -->
-    <!-- <button type="button" class="btn btn--ghost" onclick="scrollToSearch()">↑ 検索条件へ戻る</button> -->
   </div>
 
   <!-- ▼ 検索条件 -->
   <p class="notice">
-  ※ 車検:当月〜翌々月  12V:当月・翌月  安点/無6:当月分を検索・表示
+    ※ 車検:当月〜翌々月 12V:当月･翌月 安点/無6:当月分を検索・表示
   </p>
+
   <section class="panel">
     <div id="statusText" class="statusText">◎ 条件を選択してください</div>
+
     <div class="grid">
       <label class="field">
         <span>拠点</span>
@@ -68,8 +66,9 @@ require_once __DIR__ . '/../log_access.php';
     <div class="actions search-actions">
       <label class="toggle">
         <input id="showDone" type="checkbox"> 対応済みも表示
-      <button id="btnSearch" type="button" class="btn btn--primary">検索</button>
       </label>
+
+      <button id="btnSearch" type="button" class="btn btn--primary">検索</button>
     </div>
 
     <div id="msg" class="msg"></div>
@@ -87,7 +86,7 @@ require_once __DIR__ . '/../log_access.php';
       <button id="btnCancel" type="button" class="btn btn--ghost" hidden>対応済みキャンセル</button>
       <button id="btnNext" type="button" class="btn">次へ ▶▶</button>
     </div>
-    
+
     <div id="card" class="card is-hidden">
       <div id="maru" class="maru is-hidden"></div>
 
@@ -95,6 +94,9 @@ require_once __DIR__ . '/../log_access.php';
         <div class="label" id="cardSubLabel">顧客名</div>
         <div id="customer_name" class="big"></div>
       </div>
+
+      <!-- ★ 追加：JS側で使っているタイトル表示先 -->
+      <div id="card-title" class="card-title"></div>
 
       <div class="kv">
         <div class="k">携帯TEL</div>
@@ -104,6 +106,8 @@ require_once __DIR__ . '/../log_access.php';
       <div id="contactActions" class="contact-actions is-hidden">
         <a id="btnCall" class="btn btn--call" href="#">📞 電話</a>
         <a id="btnSms"  class="btn btn--sms"  href="#">💬 SMS</a>
+        <a id="btnLine" class="btn btn--line" href="#" target="_blank" rel="noopener noreferrer">💬 LINE</a>
+        <button id="btnCopy" type="button" class="btn btn--copy">📋 コピー</button>
       </div>
 
       <div class="kv">
@@ -131,6 +135,7 @@ require_once __DIR__ . '/../log_access.php';
           <div id="market_action" class="v">—</div>
         </div>
       </div>
+
       <div class="hint">iPad：左右スワイプでパラパラめくり</div>
     </div>
   </section>
@@ -163,6 +168,8 @@ const card      = $('card');
 const maru      = $('maru');
 const titleEl   = $('card-title');
 
+const cardNav = document.querySelector('.card-nav');
+
 const fields = {
   customer_name: $('customer_name'),
   mobile_tel:    $('mobile_tel'),
@@ -180,32 +187,34 @@ const fields = {
   market_action: $('market_action'),
 };
 
+const contactActions = $('contactActions');
+const btnCall = $('btnCall');
+const btnSms  = $('btnSms');
+const btnLine = $('btnLine');
+const btnCopy = $('btnCopy');
+
 /* ================= State ================= */
 let list = [];
-let idx  = 0;
+let idx = 0;
 let loading = false;
+let currentMessage = '';
 
 /* ================= UI helpers ================= */
-const setStatus = s => statusEl && (statusEl.textContent = s || '');
-const setMsg    = s => msgEl && (msgEl.textContent = s || '');
+const setStatus = s => {
+  if (statusEl) statusEl.textContent = s || '';
+};
+
+const setMsg = s => {
+  if (msgEl) msgEl.textContent = s || '';
+};
 
 function setCounter() {
   if (!counterEl) return;
   counterEl.textContent = list.length ? `${idx + 1} / ${list.length}` : '';
 }
 
-// function showCard(show) {
-//   if (!card) return;
-//   card.classList.toggle('is-hidden', !show);
-// }
-
-// let cardNav = null;
-const cardNav = document.querySelector('.card-nav');
-
-// ===== 初期状態を明示（iPhone Safari 対策）=====
 if (cardNav) cardNav.classList.add('is-hidden');
 if (card) card.classList.add('is-hidden');
-
 
 function showCard(show) {
   if (card) {
@@ -221,10 +230,39 @@ function setText(el, v) {
   el.textContent = (v !== null && v !== undefined && String(v) !== '') ? String(v) : '—';
 }
 
-/* ================= Robust value getter =================
-   - 日本語/英語/大文字/キャメル/スネーク…の揺れを吸収
-   - 候補キーが見つからないときは「ゆるく一致」も試す
-*/
+function setDateText(el, v) {
+  if (!el) return;
+
+  if (
+    !v ||
+    v === '0000-00-00' ||
+    v === '0000-00-00 00:00:00'
+  ) {
+    el.textContent = '—';
+    return;
+  }
+
+  el.textContent = v;
+}
+
+function isMobileWidth() {
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
+function updateContactActionsVisibility() {
+  if (!contactActions) return;
+
+  const telText = fields.mobile_tel ? (fields.mobile_tel.textContent || '').trim() : '';
+  const hasTel = telText && telText !== '—';
+
+  if (isMobileWidth() && hasTel) {
+    contactActions.classList.remove('is-hidden');
+  } else {
+    contactActions.classList.add('is-hidden');
+  }
+}
+
+/* ================= Robust value getter ================= */
 function normKey(k) {
   return String(k ?? '')
     .trim()
@@ -235,6 +273,7 @@ function normKey(k) {
 function makeNormMap(d) {
   const m = new Map();
   if (!d || typeof d !== 'object') return m;
+
   for (const [k, v] of Object.entries(d)) {
     m.set(normKey(k), v);
   }
@@ -243,16 +282,17 @@ function makeNormMap(d) {
 
 function pick(d, keys) {
   if (!d || typeof d !== 'object') return '';
-  // 1) 完全一致（まずは最速）
+
   for (const k of keys) {
     if (Object.prototype.hasOwnProperty.call(d, k)) return d[k];
   }
-  // 2) ゆる一致（キー揺れ対策）
+
   const nm = makeNormMap(d);
   for (const k of keys) {
     const nk = normKey(k);
     if (nm.has(nk)) return nm.get(nk);
   }
+
   return '';
 }
 
@@ -274,7 +314,6 @@ async function fetchJsonSafe(url, opts) {
   const t = await r.text();
 
   if (!r.ok) {
-    // 500等でも落とさず、内容を見える化
     throw new Error(`HTTP ${r.status} ${t.slice(0, 200)}`);
   }
 
@@ -284,7 +323,6 @@ async function fetchJsonSafe(url, opts) {
   try {
     return JSON.parse(trimmed);
   } catch (e) {
-    // HTML混入でもここで止めない（ただし例外は投げる）
     throw new Error(`JSON parse failed: ${trimmed.slice(0, 120)}`);
   }
 }
@@ -320,6 +358,90 @@ function goPrevUnarrived(fromIdx) {
   return false;
 }
 
+/* ================= Contact helpers ================= */
+function buildMessage(d) {
+  const customerName = pick(d, ['顧客名','customer_name','customerName','name']);
+
+  const workType = pick(d, ['作業種別','work_type']);
+  const serviceDate = pick(d, ['サービス予約日','service_date','serviceDate']);
+
+  // 現時点では文面は固定寄り。今後差し込みしたくなってもここだけ直せばOK。
+  return `Honda Cars 北大阪です。快適にお車をご利用いただいておりますでしょうか？
+  ${customerName ? customerName + ' 様' : ''}の定期点検時期が近づいてまいりました。
+対象月は ${pick(d, ['対象月','month','target_month'])}、点検項目は「${workType}」となっております。
+
+安全快適にお車をご利用いただくための定期点検となりますので、ご都合の良い日程をお知らせください。`;
+}
+
+function setMobileTel(tel, d = null) {
+  const telLink = fields.mobile_tel;
+
+  if (!telLink) return;
+
+  if (!tel) {
+    telLink.textContent = '—';
+    telLink.removeAttribute('href');
+
+    if (btnCall) btnCall.removeAttribute('href');
+    if (btnSms)  btnSms.removeAttribute('href');
+    if (btnLine) btnLine.removeAttribute('href');
+
+    currentMessage = '';
+    updateContactActionsVisibility();
+    return;
+  }
+
+  telLink.textContent = tel;
+
+  const num = String(tel).replace(/[^0-9]/g, '');
+
+  if (!num) {
+    telLink.removeAttribute('href');
+    currentMessage = '';
+    updateContactActionsVisibility();
+    return;
+  }
+
+  telLink.href = 'tel:' + num;
+
+  const msg = buildMessage(d || {});
+  currentMessage = msg;
+  const enc = encodeURIComponent(msg);
+
+  if (btnCall) {
+    btnCall.href = 'tel:' + num;
+  }
+
+  if (btnSms) {
+    btnSms.href = 'sms:' + num + '?body=' + enc;
+    btnSms.onclick = e => {
+      const ok = confirm('この番号にSMSを送信します。\nよろしいですか？');
+      if (!ok) {
+        e.preventDefault();
+      }
+    };
+  }
+
+  if (btnLine) {
+    btnLine.href = 'https://line.me/R/share?text=' + enc;
+  }
+
+  if (btnCopy) {
+    btnCopy.onclick = async () => {
+      if (!currentMessage) return;
+
+      try {
+        await navigator.clipboard.writeText(currentMessage);
+        alert('メッセージをコピーしました');
+      } catch (e) {
+        alert('コピーに失敗しました');
+      }
+    };
+  }
+
+  updateContactActionsVisibility();
+}
+
 /* ================= Render ================= */
 function render() {
   if (!Array.isArray(list) || list.length === 0) {
@@ -333,7 +455,6 @@ function render() {
 
   const d = list[idx];
 
-  // 対応済みOFFなら arrived=1 は表示しない（次の未対応へ）
   if (isArrived(d) && !showDone.checked) {
     const moved = goNextUnarrived(idx);
     if (!moved) {
@@ -347,104 +468,74 @@ function render() {
   showCard(true);
   setCounter();
 
-  // dataset
   if (btnArrived) btnArrived.dataset.no = getNo(d);
   if (btnCancel)  btnCancel.dataset.no  = getNo(d);
 
-  // title（候補を多めに）
   const ky = pick(d, ['拠点名','kyoten','KYOTEN_NAME','kyoten_name']);
   const ta = pick(d, ['担当者名','tanto','TANTO_NAME','tanto_name']);
   const mo = pick(d, ['対象月','month','TARGET_MONTH','target_month']);
   const wt = pick(d, ['作業種別','work_type','WORK_TYPE']);
-  if (titleEl) titleEl.textContent = `${ky} / ${ta} / ${mo} / ${wt}`;
 
-  // body（揺れ吸収）
-  setText(fields.customer_name, pick(d, ['顧客名','customer_name','customerName','name']));
-  // setText(fields.mobile_tel,    pick(d, ['携帯TEL','mobile_tel','mobileTel','tel','phone']));
-  setMobileTel(pick(d, ['携帯TEL','mobile_tel','mobileTel','tel','phone']));
-  setText(fields.address,       pick(d, ['自宅住所','address','addr']));
-  setText(fields.target_month,  pick(d, ['対象月','target_month','month']));
-  setText(fields.work_type,     pick(d, ['作業種別','work_type']));
-  setText(fields.car_name,      pick(d, ['車名','car_name']));
-  setText(fields.first_reg,     pick(d, ['初度登録年月','first_reg','firstReg']));
-  setText(fields.next_shaken,   pick(d, ['次回車検日','next_shaken','nextShaken']));
-  setText(fields.shaken_count,  pick(d, ['車検回数','shaken_count','shakenCount']));
-  setText(fields.chao_plan,     pick(d, ['現チャオコース/プラン','chao_plan','chaoPlan']));
-  setText(fields.chao_target,   pick(d, ['チャオ対象','chao_target','chaoTarget']));
-  setText(fields.zankure,       pick(d, ['残クレ','zankure']));
-  // setText(fields.service_date,  pick(d, ['サービス予約日','service_date','serviceDate']));
-  setDateText(fields.service_date,pick(d, ['サービス予約日','service_date','serviceDate']));
+  if (titleEl) {
+    titleEl.textContent = `${ky} / ${ta} / ${mo} / ${wt}`;
+  }
+
+  const cname = pick(d, ['顧客名','customer_name','customerName','name']);
+  setText(fields.customer_name, cname ? cname + ' 様' : '');
+  setMobileTel(pick(d, ['携帯TEL','mobile_tel','mobileTel','tel','phone']), d);
+  setText(fields.address,      pick(d, ['自宅住所','address','addr']));
+  setText(fields.target_month, pick(d, ['対象月','target_month','month']));
+  setText(fields.work_type,    pick(d, ['作業種別','work_type']));
+  setText(fields.car_name,     pick(d, ['車名','car_name']));
+  setText(fields.first_reg,    pick(d, ['初度登録年月','first_reg','firstReg']));
+  setText(fields.next_shaken,  pick(d, ['次回車検日','next_shaken','nextShaken']));
+  setText(fields.shaken_count, pick(d, ['車検回数','shaken_count','shakenCount']));
+  setText(fields.chao_plan,    pick(d, ['現チャオコース/プラン','chao_plan','chaoPlan']));
+  setText(fields.chao_target,  pick(d, ['チャオ対象','chao_target','chaoTarget']));
+  setText(fields.zankure,      pick(d, ['残クレ','zankure']));
+  setDateText(fields.service_date, pick(d, ['サービス予約日','service_date','serviceDate']));
   setText(fields.market_action, pick(d, ['市場措置有','市場措置','market_action','MARKET_ACTION']));
 
-  function setDateText(el, v) {
-    if (!el) return;
-
-    if (
-      !v ||
-      v === '0000-00-00' ||
-      v === '0000-00-00 00:00:00'
-    ) {
-      el.textContent = '—';
-      return;
-    }
-    el.textContent = v;
-  }
-  // ★ 市場措置「有」を赤太字にする
   const marketVal = pick(d, ['市場措置有','市場措置','market_action','MARKET_ACTION']);
-  const marketBox = document.getElementById('market_box');
-
+  const marketBox = $('market_box');
   if (marketBox) {
     marketBox.classList.toggle('market-danger', marketVal === '有');
   }
 
   document.querySelectorAll('.kv .v').forEach(v => {
-  const val = v.textContent.trim();
-
-  // ダッシュ系をまとめて判定
-  const isEmptyDash = /^[\-\–\—\―\－]+$/.test(val);
-
-  v.classList.toggle('is-empty', isEmptyDash);
+    const val = (v.textContent || '').trim();
+    const isEmptyDash = /^[\-\–\—\―\－]+$/.test(val);
+    v.classList.toggle('is-empty', isEmptyDash);
   });
-
-  // arrived UI
-  // if (isArrived(d)) {
-  //   if (maru) maru.classList.remove('is-hidden');
-  //   if (btnArrived) btnArrived.disabled = true;
-  //   if (btnCancel) btnCancel.hidden = false;
-  // } else {
-  //   if (maru) maru.classList.add('is-hidden');
-  //   if (btnArrived) btnArrived.disabled = false;
-  //   if (btnCancel) btnCancel.hidden = true;
-  // }
 
   if (isArrived(d)) {
     if (maru) maru.classList.remove('is-hidden');
 
     if (btnArrived) btnArrived.hidden = true;
-    if (btnCancel)  btnCancel.hidden  = false;
-
+    if (btnCancel)  btnCancel.hidden = false;
   } else {
     if (maru) maru.classList.add('is-hidden');
 
     if (btnArrived) btnArrived.hidden = false;
-    if (btnCancel)  btnCancel.hidden  = true;
+    if (btnCancel)  btnCancel.hidden = true;
   }
 
   if (btnPrev) btnPrev.disabled = (idx <= 0);
   if (btnNext) btnNext.disabled = (idx >= list.length - 1);
 }
 
-  function slide(dir, moveFn) {
-    if (!card) return;
+/* ================= Slide ================= */
+function slide(dir, moveFn) {
+  if (!card) return;
 
-    const cls = dir === 'next' ? 'slide-next' : 'slide-prev';
-    card.classList.add(cls);
+  const cls = dir === 'next' ? 'slide-next' : 'slide-prev';
+  card.classList.add(cls);
 
-    setTimeout(() => {
-      card.classList.remove(cls);
-      moveFn();
-    }, 120); // ← CSS transition より少し短く
-  }
+  setTimeout(() => {
+    card.classList.remove(cls);
+    moveFn();
+  }, 120);
+}
 
 /* ================= Paging events ================= */
 if (btnNext) {
@@ -452,35 +543,30 @@ if (btnNext) {
     if (!list.length) return;
 
     slide('next', () => {
-
       if (showDone.checked) {
         idx++;
         render();
-        showCard(true);   // ★ render後に表示を保証
+        showCard(true);
         return;
       }
 
       const moved = goNextUnarrived(idx);
 
       if (!moved) {
-        // ★ ここでは showCard(false) を呼ばない
         setStatus('未処理はありません');
         setCounter();
       } else {
-        showCard(true);   // ★ 移動できたら必ず表示
+        showCard(true);
       }
-
     });
   };
 }
-
 
 if (btnPrev) {
   btnPrev.onclick = () => {
     if (!list.length) return;
 
     slide('prev', () => {
-
       if (showDone.checked) {
         idx--;
         render();
@@ -488,15 +574,11 @@ if (btnPrev) {
       }
 
       goPrevUnarrived(idx);
-
     });
   };
 }
 
-/* ================= arrived（最終仕様） =================
-   confirm YES: DB更新→成功したら次の未対応へ（今カードは消える）
-   cancel: そのまま
-*/
+/* ================= arrived ================= */
 if (btnArrived) {
   btnArrived.onclick = async () => {
     const d = list[idx];
@@ -504,18 +586,16 @@ if (btnArrived) {
 
     if (!confirm('対応済み(予約/入庫/代替)にしますか？')) return;
 
-    // まずローカル状態更新
     d.arrived = 1;
-    d.arrived_at = new Date().toISOString().slice(0,19).replace('T',' ');
+    d.arrived_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    // DB更新（失敗したら戻す）
     try {
       await fetchJsonSafe('api/shaken_arrived.php', {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:'no=' + encodeURIComponent(getNo(d))
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'no=' + encodeURIComponent(getNo(d))
       });
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       alert('DB更新に失敗しました（このカードは残します）');
       d.arrived = 0;
@@ -524,7 +604,6 @@ if (btnArrived) {
       return;
     }
 
-    // 成功 → 次の未対応へ（なければ終了表示）
     const moved = goNextUnarrived(idx);
     if (!moved) {
       showCard(false);
@@ -534,27 +613,26 @@ if (btnArrived) {
   };
 }
 
-/* ================= cancel（arrived=0） ================= */
+/* ================= cancel ================= */
 if (btnCancel) {
   btnCancel.onclick = async () => {
     const d = list[idx];
     if (!d || !isArrived(d)) return;
+
     if (!confirm('対応済み(予約/入庫/代替)を取り消ししますか？')) return;
 
-    // ローカル更新
     d.arrived = 0;
     d.arrived_at = null;
 
     try {
       await fetchJsonSafe('api/shaken_cancel.php', {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:'no=' + encodeURIComponent(getNo(d))
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'no=' + encodeURIComponent(getNo(d))
       });
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       alert('取り消しに失敗しました');
-      // 失敗時は元に戻す
       d.arrived = 1;
       render();
       return;
@@ -595,7 +673,7 @@ if (btnSearch) {
 
       if (!list.length) {
         setMsg('該当なし(または対象外の検索です）');
-        setStatus('');          // 上のステータスは消す
+        setStatus('');
         showCard(false);
         setCounter();
         return;
@@ -604,7 +682,7 @@ if (btnSearch) {
       setStatus('検索結果');
       render();
 
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       setStatus('エラー');
       setMsg('検索に失敗しました（API/JSONを確認）');
@@ -614,42 +692,36 @@ if (btnSearch) {
   };
 }
 
-/* ================= Swipe (iPad / mobile) ================= */
-  if (card) {
-    let startX = null;
-    let startY = null;
+/* ================= Swipe ================= */
+if (card) {
+  let startX = null;
+  let startY = null;
 
-    card.addEventListener('touchstart', e => {
-      if (e.touches.length !== 1) return;
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    }, { passive: true });
+  card.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
 
-    card.addEventListener('touchend', e => {
-      if (startX === null) return;
+  card.addEventListener('touchend', e => {
+    if (startX === null) return;
 
-      const dx = e.changedTouches[0].clientX - startX;
-      const dy = e.changedTouches[0].clientY - startY;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
 
-      startX = startY = null;
+    startX = null;
+    startY = null;
 
-      // 縦スクロールは無視
-      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
 
-        // if (dx < 0) {
-        //   btnNext && btnNext.click(); // ← ★ここ
-        // } else {
-        //   btnPrev && btnPrev.click(); // ← ★ここ
-        // }
-
-        if (dx < 0) {
-          btnPrev && btnPrev.click(); // ← 左スワイプ → 前
-        } else {
-          btnNext && btnNext.click(); // → 右スワイプ → 次
-        }
-        
-      }, { passive: true });
-  }
+    // 現仕様を維持
+    if (dx < 0) {
+      btnPrev && btnPrev.click(); // 左スワイプ → 前
+    } else {
+      btnNext && btnNext.click(); // 右スワイプ → 次
+    }
+  }, { passive: true });
+}
 
 /* ================= 初期選択肢ロード ================= */
 async function loadOptions() {
@@ -660,21 +732,24 @@ async function loadOptions() {
     const jm = await fetchJsonSafe('api/get_month.php');
     const months = normalizeList(jm);
     if (month) {
-      month.innerHTML = '<option value="">選択</option>' +
+      month.innerHTML =
+        '<option value="">選択</option>' +
         months.map(v => `<option value="${v}">${v}</option>`).join('');
     }
 
     const jk = await fetchJsonSafe('api/get_kyoten.php');
     const kyotens = normalizeList(jk);
     if (kyoten) {
-      kyoten.innerHTML = '<option value="">選択</option>' +
+      kyoten.innerHTML =
+        '<option value="">選択</option>' +
         kyotens.map(v => `<option value="${v}">${v}</option>`).join('');
     }
 
     const jw = await fetchJsonSafe('api/get_work_type.php');
     const works = normalizeList(jw);
     if (work) {
-      work.innerHTML = '<option value="">選択</option>' +
+      work.innerHTML =
+        '<option value="">選択</option>' +
         works.map(v => `<option value="${v}">${v}</option>`).join('');
     }
 
@@ -683,7 +758,7 @@ async function loadOptions() {
       tanto.disabled = true;
     }
 
-  } catch(e) {
+  } catch (e) {
     console.error(e);
     alert('初期データの取得に失敗しました（get_kyoten/get_month/get_work_type を確認）');
   }
@@ -703,77 +778,22 @@ if (kyoten && tanto) {
       const jt = await fetchJsonSafe('api/get_tanto.php?kyoten=' + encodeURIComponent(kyoten.value));
       const tantos = normalizeList(jt);
 
-      tanto.innerHTML = '<option value="">選択</option>' +
+      tanto.innerHTML =
+        '<option value="">選択</option>' +
         tantos.map(v => `<option value="${v}">${v}</option>`).join('');
       tanto.disabled = false;
 
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       tanto.innerHTML = '<option value="">取得失敗</option>';
     }
   });
 }
 
-  // ▼ 携帯TELをSMSリンクに変換（本文なし）
-  // function setMobileTel(tel) {
-  //   const a = document.getElementById('mobile_tel');
-
-  //   if (!tel) {
-  //     a.textContent = '—';
-  //     a.removeAttribute('href');
-  //     return;
-  //   }
-
-  // ▼ 携帯TEL表示 + 電話 / SMS ボタン制御
-  function setMobileTel(tel) {
-    const telLink = document.getElementById('mobile_tel');
-    const actions = document.getElementById('contactActions');
-    const btnCall = document.getElementById('btnCall');
-    const btnSms  = document.getElementById('btnSms');
-
-  // TELなし
-    if (!tel) {
-      telLink.textContent = '—';
-      telLink.removeAttribute('href');
-      actions.classList.add('is-hidden');
-      return;
-    }
-
-  // 表示用
-    telLink.textContent = tel;
-
-  // 数字だけ抽出
-    const num = tel.replace(/[^0-9]/g, '');
-
-  // 電話 / SMS
-    btnCall.href = 'tel:' + num;
-    btnSms.href  = 'sms:' + num;
-
-  // スマホ幅のみ表示
-    if (window.innerWidth <= 768) {
-        actions.classList.remove('is-hidden');
-      } else {
-        actions.classList.add('is-hidden');
-      }
-
-  // 誤送信防止ワンクッション
-      btnSms.onclick = e => {
-        const ok = confirm('この番号にSMSを送信します。\nよろしいですか？');
-        if (!ok) {
-          e.preventDefault();   // SMS起動を止める
-        }
-      }; 
-  }
-
-  //   // 表示用（ハイフンあり）
-  //   a.textContent = tel;
-
-  //   // SMS用（数字のみ）
-  //   const smsNumber = tel.replace(/[^0-9]/g, '');
-
-  //   // SMS起動（iPhone / Android 共通）
-  //   a.href = 'sms:' + smsNumber;
-  // }
+/* ================= リサイズ時：連絡ボタン再判定 ================= */
+window.addEventListener('resize', () => {
+  updateContactActionsVisibility();
+});
 
 /* ================= Start ================= */
 loadOptions();
@@ -781,3 +801,6 @@ showCard(false);
 
 })();
 </script>
+
+</body>
+</html>

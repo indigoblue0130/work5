@@ -189,6 +189,11 @@ $_SESSION['allow_pdf_access'] = true;
                 </a> -->
                 <a href="./public/shaken_search.php" target="_blank" class="banner">
                     <img src="assets/img/tenken.png" alt="点検対象 パラパラ検索">
+                    <p>点検対象検索サイト(車検:3~5月 12V:3~4月 無6･安点:3月)</p>
+                </a>
+                <a href="https://voice-value.biz/webapp/web/login" target="_blank" class="banner">
+                    <img src="assets/img/shodan_AI.png" alt="商談AI検索">
+                    <p>商談AI検索・分析</p>
                 </a>
             </div>
     </section>
@@ -198,11 +203,11 @@ $_SESSION['allow_pdf_access'] = true;
             <div class="archive">
                 <a href="/survey/survey.php" class="banner">
                     <img src="./assets/img/survey5.png" alt="来店アンケート">
-                    <p>テスト運用中</p>
+                    <p>(3月:テスト運用 4月:本格稼働)</p>
                 </a>
                 <a href="/survey/visitors.php" target="_blank" class="banner">
-                    <img src="./assets/img/survey4.png" alt="来店アンケート検索">
-                    <p>テスト運用中</p>
+                    <img src="./assets/img/survey6.png" alt="来店アンケート検索">
+                    <p>(3月:テスト運用 4月:本格稼働)</p>
                 </a>
             </div>
     </section>
