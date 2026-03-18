@@ -1,9 +1,9 @@
 <?php
 session_start();
-// require_once __DIR__ . '/config/config2.php';
+require_once __DIR__ . '/config/config2.php';
 
 // 変更後(本番用)
-require_once '/home/xs300844/triple3.online/config/config2.php';
+// require_once '/home/xs300844/triple3.online/config/config2.php';
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header('Location: login.html');

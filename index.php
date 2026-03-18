@@ -189,7 +189,8 @@ $_SESSION['allow_pdf_access'] = true;
                 <!-- <a href="./public/6m_search.php" class="banner">
                     <img src="assets/img/3kan.png" alt="3管率 パラパラ検索">
                 </a> -->
-                <a href="./public/shaken_search.php" target="_blank" class="banner">
+                <!-- <a href="./public/shaken_search.php" target="_blank" class="banner"> -->
+                <a href="../shaken/shaken_search.php" target="_blank" class="banner">    
                     <img src="assets/img/tenken.png" alt="点検対象 パラパラ検索">
                     <p>点検対象検索サイト(車検:3~5月 12V:3~4月 無6･安点:3月)</p>
                 </a>
