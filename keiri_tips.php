@@ -31,6 +31,12 @@ require_once __DIR__ . '/log_access.php';
   </div>
 
   <div class="pdf-grid">
+
+    <a href="view_pdf.php?file=keiri/keiriTips_09.pdf" target="_blank" class="pdf-card">
+      <p class="pdf-title">経理Tips Vol.9</p>
+      <p class="pdf-desc">用品のB/Oが期をまたぐとき、なぜ？</p>
+      <img src="./assets/thumb/keiri/keiriTips_09.png" alt="">
+    </a>
     
     <a href="view_pdf.php?file=keiri/keiriTips_08.pdf" target="_blank" class="pdf-card">
       <p class="pdf-title">経理Tips Vol.8</p>
@@ -79,6 +85,7 @@ require_once __DIR__ . '/log_access.php';
       <p class="pdf-desc">レンタカー費用の領収証の発行区分は？</p>
       <img src="./assets/thumb/keiri/keiriTips_01.png" alt="">
     </a>
+    
   </div>
 </section>
 

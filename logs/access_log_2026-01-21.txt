@@ -1,3 +1,0 @@
-2026-01-21 11:44:05 | ID: hdn0022777 | PDFアクセス: sokuho_2025.pdf | IP: 210.162.46.11 | ブラウザ: Mozilla/5.0 (iPad; CPU OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1
-2026-01-21 11:48:52 | ID: hdn0022777 | PDFアクセス: basic_1.pdf | IP: 210.162.46.11 | ブラウザ: Mozilla/5.0 (iPad; CPU OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1
-2026-01-21 11:49:53 | ID: hdn0022777 | PDFアクセス: hoken.pdf | IP: 210.162.46.11 | ブラウザ: Mozilla/5.0 (iPad; CPU OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1

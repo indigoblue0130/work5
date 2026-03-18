@@ -29,12 +29,6 @@ if (time() - $_SESSION['login_time'] > MAX_LOGIN_TIME) {
 $_SESSION['allow_pdf_access'] = true;
 
 ?>
-<script>
-  // 30分ごとに強制リロード（ミリ秒）
-  setTimeout(() => {
-    location.reload();
-  }, 30 * 60 * 1000);
-</script>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -52,6 +46,14 @@ $_SESSION['allow_pdf_access'] = true;
     <!-- タブの名前 -->
     <title>Growth engine & Growth driver</title>
 </head>
+
+<script>
+  // 30分ごとに強制リロード（ミリ秒）
+  setTimeout(() => {
+    location.reload();
+  }, 30 * 60 * 1000);
+</script>
+
 <body>
 <div class="header-topbar">
   <div class="welcome">
@@ -67,7 +69,7 @@ $_SESSION['allow_pdf_access'] = true;
 </div>
     <header>
         <h1 class="site-title">
-            <a>HKO Growth Hub</a>
+            <span>HKO Growth Hub</span>
         </h1>
         <nav>
             <ul>
@@ -120,13 +122,13 @@ $_SESSION['allow_pdf_access'] = true;
     <div>    
         <p class="sec-sub">
             <span class="label">＜新体制スローガン＞</span>
-            <span class="title">成長エンジン＆成長ドライバー</span>
+            <a href="/CarDashboard/" class="title" style="color:inherit;text-decoration:none;">成長エンジン＆成長ドライバー</a>
         </p>
         <!-- <p>新車販売3,000台を達成し、大阪を代表するディーラーになる!!</p> -->
     </div>
     </section>
     <section id="SPIKA" class="wrapper">
-    <H2 class="sec-title">SPIKA</H2>
+    <h2 class="sec-title">SPIKA</h2>
         <ul>
             <li>
                 <a href="view_pdf.php?file=works/SPIKA202602.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
@@ -149,7 +151,7 @@ $_SESSION['allow_pdf_access'] = true;
         </ul>
     </section>
     <section id="videos" class="wrapper">
-        <H2 class="sec-title">videos</H2>
+        <h2 class="sec-title">videos</h2>
             <div class="archive">
                 <a href="videos.php">
                     <img src="./assets/img/tops2024.gif" alt="tops2024">
@@ -182,7 +184,7 @@ $_SESSION['allow_pdf_access'] = true;
 
          <!-- tenken -->
     <section id="tenken" class="wrapper">
-        <H2 class="sec-title">contact</H2>
+        <h2 class="sec-title">contact</h2>
             <div class="archive">
                 <!-- <a href="./public/6m_search.php" class="banner">
                     <img src="assets/img/3kan.png" alt="3管率 パラパラ検索">
@@ -193,13 +195,13 @@ $_SESSION['allow_pdf_access'] = true;
                 </a>
                 <a href="https://voice-value.biz/webapp/web/login" target="_blank" class="banner">
                     <img src="assets/img/shodan_AI.png" alt="商談AI検索">
-                    <p>商談AI検索・分析</p>
+                    <p>商談サポートAI検索・分析</p>
                 </a>
             </div>
     </section>
 
     <section id="raiten" class="wrapper">
-        <H2 class="sec-title">survey</H2>
+        <h2 class="sec-title">survey</h2>
             <div class="archive">
                 <a href="/survey/survey.php" class="banner">
                     <img src="./assets/img/survey5.png" alt="来店アンケート">
@@ -214,7 +216,7 @@ $_SESSION['allow_pdf_access'] = true;
 
     <!-- works -->
     <section id="works" class="wrapper">
-        <H2 class="sec-title">works</H2>
+        <h2 class="sec-title">works</h2>
         <ul>
             <li>
                 <a href="view_pdf.php?file=works/sokuho_2025.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
@@ -278,7 +280,7 @@ $_SESSION['allow_pdf_access'] = true;
             </li>
             <li>
                 <a href="view_pdf.php?file=works/chao_yoyaku.pdf" target="_blank" rel="noopener noreferrer" class="image-container">
-                    <img src="./assets/img/iPhone1.jpg" alt="サービス翌月予約確認" loading="lazy" loading="lazy">   
+                    <img src="./assets/img/iPhone1.jpg" alt="サービス翌月予約確認" loading="lazy">   
                         <p>サービス翌月予約確認</p>
                 </a>
             </li>
@@ -315,7 +317,7 @@ $_SESSION['allow_pdf_access'] = true;
         </ul>
     </section>
     <section id="other" class="wrapper">
-    <H2 class="sec-title">other</H2>
+    <h2 class="sec-title">other</h2>
     <div class="archive">
         <a href="view_pdf.php?file=works/keikakusho2025.pdf" target="_blank" rel="noopener noreferrer">
             <img src="./assets/img/keikaku_bana.png" alt="archive">
@@ -348,20 +350,22 @@ $_SESSION['allow_pdf_access'] = true;
     <section id="news" class="wrapper">
         <h2 class="sec-title">news</h2>
         <dl>
-            <dt>2024/10/04</dt>
+            <dt>2024/10/01</dt>
             <dd>本サイトをリリースしました。</dd>
-            <dt>2024/10/01</dt>
+            <dt>2024/10/04</dt>
             <dd>PythonとChatGPTで作成しています。</dd>
-            <dt>2024/10/01</dt>
+            <dt>2024/10/04</dt>
             <dd>システムの自動化を進めています。</dd>
             <dt>2026/02/20</dt>
             <dd>点検パラパラをリリースしました。</dd>
             <dt>2026/02/20</dt>
             <dd>ログイン方法を変更しました。</dd>
+            <dt>2026/03/15</dt>
+            <dd>Claude codeでダッシュボードを作成しました。</dd>
         </dl>
     </section>
     <!-- <section id="SPIKA" class="wrapper">
-    <H2 class="sec-title">SPIKA</H2>
+    <h2 class="sec-title">SPIKA</h2>
         <ul>
             <li>
                 <a href="view_pdf.php?file=SPIKA2024_1.pdf" target="_blank" class="image-container">

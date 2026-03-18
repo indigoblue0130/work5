@@ -105,9 +105,10 @@ require_once __DIR__ . '/../log_access.php';
 
       <div id="contactActions" class="contact-actions is-hidden">
         <a id="btnCall" class="btn btn--call" href="#">📞 電話</a>
-        <a id="btnSms"  class="btn btn--sms"  href="#">💬 SMS</a>
-        <a id="btnLine" class="btn btn--line" href="#" target="_blank" rel="noopener noreferrer">💬 LINE</a>
-        <button id="btnCopy" type="button" class="btn btn--copy">📋 コピー</button>
+        <a id="btnSms1"  class="btn btn--sms"  href="#">💬 SMS/案内</a>
+        <a id="btnSms2"  class="btn btn--sms"  href="#">💬 SMS/HTC</a>
+        <a id="btnLine1" class="btn btn--line" href="#" target="_blank" rel="noopener noreferrer">💬 LINE/案内</a>
+        <a id="btnLine2" class="btn btn--line" href="#" target="_blank" rel="noopener noreferrer">💬 LINE/HTC</a>
       </div>
 
       <div class="kv">
@@ -189,15 +190,15 @@ const fields = {
 
 const contactActions = $('contactActions');
 const btnCall = $('btnCall');
-const btnSms  = $('btnSms');
-const btnLine = $('btnLine');
-const btnCopy = $('btnCopy');
+const btnSms1  = $('btnSms1');
+const btnSms2  = $('btnSms2');
+const btnLine1 = $('btnLine1');
+const btnLine2 = $('btnLine2');
 
 /* ================= State ================= */
 let list = [];
 let idx = 0;
 let loading = false;
-let currentMessage = '';
 
 /* ================= UI helpers ================= */
 const setStatus = s => {
@@ -360,33 +361,75 @@ function goPrevUnarrived(fromIdx) {
 
 /* ================= Contact helpers ================= */
 function buildMessage(d) {
+
   const customerName = pick(d, ['顧客名','customer_name','customerName','name']);
 
-  const workType = pick(d, ['作業種別','work_type']);
-  const serviceDate = pick(d, ['サービス予約日','service_date','serviceDate']);
+  // ★ 空白対策
+  const rawWorkType = String(pick(d, ['作業種別','work_type'])).trim();
 
-  // 現時点では文面は固定寄り。今後差し込みしたくなってもここだけ直せばOK。
+  // 作業種別の変換
+  const workMap = {
+    '車検': '車検',
+    '12V': '法定12カ月点検',
+    '安全': '安全点検',
+    '無６': '初回6カ月点検'
+  };
+
+  const workType = workMap[rawWorkType] || rawWorkType;
+
+  const targetMonth = pick(d, ['対象月','month','target_month']);
+
   return `Honda Cars 北大阪です。快適にお車をご利用いただいておりますでしょうか？
-  ${customerName ? customerName + ' 様' : ''}の定期点検時期が近づいてまいりました。
-対象月は ${pick(d, ['対象月','month','target_month'])}、点検項目は「${workType}」となっております。
+${customerName ? customerName + ' 様' : ''}の定期点検時期が近づいてまいりました。
 
-安全快適にお車をご利用いただくための定期点検となりますので、ご都合の良い日程をお知らせください。`;
+対象月は ${targetMonth}、点検項目は「${workType}」となっております。
+
+安全快適にお車をご利用いただくための定期点検となりますので、ご都合の良い日程をお知らせください。
+ご希望の日程をこのメッセージに返信いただくか、お電話でも承っております。
+よろしくお願いいたします。`;
 }
 
-function setMobileTel(tel, d = null) {
-  const telLink = fields.mobile_tel;
+function buildMessage2(d) {
+  const customerName = pick(d, ['顧客名','customer_name','customerName','name']);
+  // ★ 空白対策
+  const rawWorkType = String(pick(d, ['作業種別','work_type'])).trim();
+  // 作業種別の変換
+  const workMap = {
+    '車検': '車検',
+    '12V': '法定12カ月点検',
+    '安全': '安全点検',
+    '無６': '初回6カ月点検'
+  };
+  const workType = workMap[rawWorkType] || rawWorkType;
+  const targetMonth = pick(d, ['対象月','month','target_month']);
 
+  return `Honda Cars 北大阪です。快適にお車をご利用いただいておりますでしょうか？
+${customerName ? customerName + ' 様' : ''}の定期点検時期が近づいてまいりました。
+
+対象月は ${targetMonth}、点検項目は「${workType}」となっております。
+
+安全快適にお車をご利用いただくための定期点検となります。HondaTotalCareアプリの右下「メンテナンス予約」からご都合の良い日程でご予約をお願いいたします。
+操作がご不明の場合は、このメッセージに返信いただくか、お電話いただけますと幸いです。
+よろしくお願いいたします。`;
+}
+
+
+function setMobileTel(tel, d = null) {
+
+  const telLink = fields.mobile_tel;
   if (!telLink) return;
+
+  /* ================= TELなし ================= */
 
   if (!tel) {
     telLink.textContent = '—';
     telLink.removeAttribute('href');
 
-    if (btnCall) btnCall.removeAttribute('href');
-    if (btnSms)  btnSms.removeAttribute('href');
-    if (btnLine) btnLine.removeAttribute('href');
-
-    currentMessage = '';
+    if (btnCall)  btnCall.removeAttribute('href');
+    if (btnSms1)  btnSms1.removeAttribute('href');
+    if (btnSms2)  btnSms2.removeAttribute('href');
+    if (btnLine1) btnLine1.removeAttribute('href');
+    if (btnLine2) btnLine2.removeAttribute('href');
     updateContactActionsVisibility();
     return;
   }
@@ -397,49 +440,64 @@ function setMobileTel(tel, d = null) {
 
   if (!num) {
     telLink.removeAttribute('href');
-    currentMessage = '';
     updateContactActionsVisibility();
     return;
   }
 
   telLink.href = 'tel:' + num;
 
-  const msg = buildMessage(d || {});
-  currentMessage = msg;
-  const enc = encodeURIComponent(msg);
+/* ================= メッセージ生成 ================= */
 
-  if (btnCall) {
-    btnCall.href = 'tel:' + num;
-  }
+  const enc1 = encodeURIComponent(buildMessage(d || {}));
+  const enc2 = encodeURIComponent(buildMessage2(d || {}));
 
-  if (btnSms) {
-    btnSms.href = 'sms:' + num + '?body=' + enc;
-    btnSms.onclick = e => {
-      const ok = confirm('この番号にSMSを送信します。\nよろしいですか？');
-      if (!ok) {
-        e.preventDefault();
-      }
-    };
-  }
+/* ================= 電話 ================= */
 
-  if (btnLine) {
-    btnLine.href = 'https://line.me/R/share?text=' + enc;
-  }
+if (btnCall) {
+  btnCall.href = 'tel:' + num;
+}
 
-  if (btnCopy) {
-    btnCopy.onclick = async () => {
-      if (!currentMessage) return;
+/* ================= SMS ================= */
 
-      try {
-        await navigator.clipboard.writeText(currentMessage);
-        alert('メッセージをコピーしました');
-      } catch (e) {
-        alert('コピーに失敗しました');
-      }
-    };
-  }
+if (btnSms1) btnSms1.href = 'sms:' + num + '?body=' + enc1;
+if (btnSms2) btnSms2.href = 'sms:' + num + '?body=' + enc2;
+
+/* ================= LINE ================= */
+
+if (btnLine1) {
+  btnLine1.onclick = () => {
+    const ta = document.createElement('textarea');
+    ta.value = buildMessage(d || {});
+    ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.left = '0';
+    ta.style.width = '1px'; ta.style.height = '1px';
+    ta.style.opacity = '0'; ta.style.fontSize = '16px';
+    document.body.appendChild(ta);
+    ta.focus(); ta.setSelectionRange(0, ta.value.length);
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    window.open('https://line.me/R/nv/chat', '_blank');
+  };
+}
+
+if (btnLine2) {
+  btnLine2.onclick = () => {
+    const ta = document.createElement('textarea');
+    ta.value = buildMessage2(d || {});
+    ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.left = '0';
+    ta.style.width = '1px'; ta.style.height = '1px';
+    ta.style.opacity = '0'; ta.style.fontSize = '16px';
+    document.body.appendChild(ta);
+    ta.focus(); ta.setSelectionRange(0, ta.value.length);
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    window.open('https://line.me/R/nv/chat', '_blank');
+  };
+}
+
+  /* ================= ボタン表示制御 ================= */
 
   updateContactActionsVisibility();
+
 }
 
 /* ================= Render ================= */
